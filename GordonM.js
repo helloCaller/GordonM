@@ -1,3 +1,5 @@
+
+
 var pubnub = PUBNUB({
     subscribe_key: 'sub-c-03f3177c-9c7e-11e5-b829-02ee2ddab7fe', // always required
     publish_key: 'pub-c-8c19144e-3d5a-4e5b-8442-f56d8721b99c'    // only required if publishing
@@ -6,28 +8,47 @@ var pubnub = PUBNUB({
 
 pubnub.subscribe({
     channel: 'GMflash',
-    message: function(m){var colorRecieved = m.color
-                         document.getElementById("container").style.backgroundColor = colorRecieved
-                        console.log(m.color)},
+    message: function(m){var colourRecieved = m.colour
+                        $('body').css({"background-color": colourRecieved})
+                        console.log(m.colour)},
     error: function (error) {
       // Handle error here
       console.log(JSON.stringify(error));
     }
  });
 
-function publish() {
+function publishR() {
 pubnub.publish({
     channel: 'GMflash',        
     message: flashcontrol = {
-                color: "red"}
+                colour: "#ff1a75",
+                }
     ,
-    callback : function(m){console.log("publish " + flashcontrol.color)}
+    callback : function(m){console.log("publish " + flashcontrol.colour)}
 });
 }
 
+function publishB() {
+pubnub.publish({
+    channel: 'GMflash',        
+    message: flashcontrol = {
+                colour: "#99ccff",
+                }
+    ,
+    callback : function(m){console.log("publish " + flashcontrol.colour)}
+});
+}
 
-
-
+function publishP() {
+pubnub.publish({
+    channel: 'GMflash',        
+    message: flashcontrol = {
+                colour: "#ff33ff",
+                }
+    ,
+    callback : function(m){console.log("publish " + flashcontrol.colour)}
+});
+}
 
 if (window.DeviceOrientationEvent) {
   
@@ -53,9 +74,9 @@ function deviceOrientationHandler(tiltLR, tiltFB, dir){
 document.getElementById("doDirection").innerHTML = dir
 
 if(dir > 90 && dir < 180){
-   document.getElementById("container").style.backgroundColor = colorRecieved
+   //document.getElementById("container").style.backgroundColor = colorRecieved
 } else {
-    document.getElementById("container").style.backgroundColor = "white"
+    //document.getElementById("container").style.backgroundColor = "white"
 }
 };
 
