@@ -6,10 +6,33 @@
         <title>Mobile Swinging</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
-        <link rel="stylesheet" type= "text/css" href= "GordonM.css">
+        <link rel="stylesheet" type= "text/css" href= "GordonMstyle.css">
     </head>
     
     <body>
+        <div id="container" style="height=100%;width=100%; backgroundColor = 'white'">
         
-        <script src = "mobiledevelopmentGlobeRotation.js"></script>
+            <h2 id ="title">Mobile Swinging</h2>
+            <div class="main">
+  <h2>Device Orientation</h2>
+  <table>
+    <tr>
+      <td style="visibility=hidden">Event Supported</td>
+      <td id="doEvent" style="visibility=hidden"></td>
+    </tr>
+    <tr>
+      <td style="visibility=hidden">Direction [alpha]</td>
+      <td id="doDirection"></td>
+    </tr>
+   </table>
+</div>
+            
+            <button id="colourChange" onclick="publish()"></button>
+            
+                
+        </div>
+        
+        <script src="http://cdn.pubnub.com/pubnub-3.7.18.min.js"></script>
+        <script src = "GordonM.js"></script>
+        <script src = "GordonMcontrolboard"></script>
     </body>
