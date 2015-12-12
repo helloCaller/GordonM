@@ -7,32 +7,54 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
         <link rel="stylesheet" type= "text/css" href= "GordonMstyle.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="http://cdn.pubnub.com/pubnub-3.7.18.min.js"></script>
+        <script src = "GordonM.js"></script>
     </head>
     
     <body>
-        <div id="container" style="height=100%;width=100%; backgroundColor = 'white'">
+        <div id="container" style="height:100%;width:100%; backgroundColor:'white'">
         
-            <h2 id ="title">Mobile Swinging</h2>
-            <div class="main">
-  <h2>Device Orientation</h2>
-  <table>
-    <tr>
-      <td style="visibility=hidden">Event Supported</td>
-      <td id="doEvent" style="visibility=hidden"></td>
-    </tr>
-    <tr>
-      <td style="visibility=hidden">Direction [alpha]</td>
-      <td id="doDirection"></td>
-    </tr>
-   </table>
-</div>
+           
+            <div>
+                <h2>Device Orientation</h2>
+                    <table>
+                        <tr>
+        <!--this is here for debugging purpses only-->
+                            <td style="visibility:hidden">Event Supported</td>
+                            <td id="doEvent" style="visibility:hidden"></td>
+                        </tr>
+                        <tr>
+        
+                        <td>Direction [alpha]</td>
+                            <td id="doDirection"></td>
+                        </tr>
+                    </table>
+            </div>
             
-            <button id="colourChange" onclick="publish()"></button>
             
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Color Choice
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li onclick= publish()> RED</li>
+                <li><a href="#">CSS</a></li>
+                <li><a href="#">JavaScript</a></li>
+            </ul>
+            </div>  
                 
         </div>
         
+<!--
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="http://cdn.pubnub.com/pubnub-3.7.18.min.js"></script>
         <script src = "GordonM.js"></script>
-        <script src = "GordonMcontrolboard"></script>
+-->
+
     </body>
+    
+</html>

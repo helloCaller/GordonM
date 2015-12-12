@@ -2,10 +2,13 @@ var pubnub = PUBNUB({
     subscribe_key: 'sub-c-03f3177c-9c7e-11e5-b829-02ee2ddab7fe', // always required
     publish_key: 'pub-c-8c19144e-3d5a-4e5b-8442-f56d8721b99c'    // only required if publishing
 });
-var Flashcolor;
+
+
 pubnub.subscribe({
     channel: 'GMflash',
-    message: function(m){document.getElementById("container").style.backgroundColor = m.color},
+    message: function(m){var colorRecieved = m.color
+                         document.getElementById("container").style.backgroundColor = colorRecieved
+                        console.log(m.color)},
     error: function (error) {
       // Handle error here
       console.log(JSON.stringify(error));
@@ -27,7 +30,7 @@ pubnub.publish({
 
 
 if (window.DeviceOrientationEvent) {
-  document.getElementById("title").innerHTML = "Device Orientation";
+  
   // Listen for the deviceorientation event and handle the raw data
   window.addEventListener('deviceorientation', function(eventData) {
     // gamma is the left-to-right tilt in degrees, where right is positive
@@ -50,7 +53,7 @@ function deviceOrientationHandler(tiltLR, tiltFB, dir){
 document.getElementById("doDirection").innerHTML = dir
 
 if(dir > 90 && dir < 180){
-   document.getElementById("container").style.backgroundColor = "red"
+   document.getElementById("container").style.backgroundColor = colorRecieved
 } else {
     document.getElementById("container").style.backgroundColor = "white"
 }
