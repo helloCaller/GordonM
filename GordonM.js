@@ -9,9 +9,52 @@ var pubnub = PUBNUB({
 pubnub.subscribe({
     channel: 'GMflash',
     message: function(m){var colourRecieved = m.colour
+                        //var bodyColour = document.body.style.backgroundColor
+                //---this flashes screen based on rate and colour received
+                        console.log(m.flashDirection);
+                      if(m.flashDirection == "false"){ 
                         setInterval(function(){
-                            document.body.style.backgroundColor = document.body.style.backgroundColor == "black" ? colourRecieved: "black";}, m.flashRate);
-                    
+                        document.body.style.backgroundColor = document.body.style.backgroundColor == "black" ? colourRecieved: "black";}, m.flashRate);
+                     } else if(m.flashDirection == "true") {
+                          
+                          if (window.DeviceOrientationEvent) {
+  
+  // Listen for the deviceorientation event and handle the raw data
+  window.addEventListener('deviceorientation', function(eventData) {
+    // gamma is the left-to-right tilt in degrees
+    var tiltLR = Math.round(eventData.gamma)
+
+    // beta is the front-to-back tilt in degrees
+     var tiltFB = Math.round(eventData.beta)
+
+    // alpha is the compass direction the device is facing in degrees
+    var dir = Math.round(eventData.alpha)
+
+    //--ORIENTATION HANDLER
+    
+    deviceOrientationHandler(tiltLR, tiltFB, dir)
+    
+  }, false);
+} else {
+  console.log("Orientation not supported");
+}
+//---------------------------
+    
+
+function deviceOrientationHandler(tiltLR, tiltFB, dir){
+            document.getElementById("doDirection").innerHTML = dir
+
+            if(dir > 90 && dir < 180){
+                CurrentTone.play()
+                document.body.style.backgroundColor = colourRecieved
+                
+            } else {
+                CurrentTone.pause()
+                document.body.style.backgroundColor = "black";
+            }
+    }
+                          
+                      }
                         
                                 
                         console.log(m.flashRate)},
@@ -21,13 +64,15 @@ pubnub.subscribe({
     }
  });
 
+console.log(pubnub.subscribe.message);
 //--send messages for different colors
 function publish() {
 pubnub.publish({
     channel: 'GMflash',        
     message: flashcontrol = {
                 colour: $("#control-colour").val(),
-                flashRate: $("#control-action").val()
+                flashRate: $("#control-action").val(),
+                flashDirection:$("#control-compass").val()
                 }
     ,
     callback : function(m){console.log("publish " + flashcontrol.colour)}
@@ -71,38 +116,40 @@ var CurrentTone;
 }
 
 //-------------------adpated code from http://www.html5rocks.com/en/tutorials/device/orientation/
-if (window.DeviceOrientationEvent) {
-  
-  // Listen for the deviceorientation event and handle the raw data
-  window.addEventListener('deviceorientation', function(eventData) {
-    // gamma is the left-to-right tilt in degrees
-    var tiltLR = Math.round(eventData.gamma)
-
-    // beta is the front-to-back tilt in degrees
-    var tiltFB = Math.round(eventData.beta)
-
-    // alpha is the compass direction the device is facing in degrees
-    var dir = Math.round(eventData.alpha)
-
-    //--ORIENTATION HANDLER
-    deviceOrientationHandler(tiltLR, tiltFB, dir)
-  }, false);
-} else {
-  console.log("Orientation not supported");
-}
-//---------------------------
-    
-
-function deviceOrientationHandler(tiltLR, tiltFB, dir){
-            document.getElementById("doDirection").innerHTML = dir
-
-            if(dir > 90 && dir < 180){
-                CurrentTone.play()
-                
-            } else {
-                CurrentTone.pause()
-            }
-    }
+//if (window.DeviceOrientationEvent) {
+//  
+//  // Listen for the deviceorientation event and handle the raw data
+//  window.addEventListener('deviceorientation', function(eventData) {
+//    // gamma is the left-to-right tilt in degrees
+//    var tiltLR = Math.round(eventData.gamma)
+//
+//    // beta is the front-to-back tilt in degrees
+//     var tiltFB = Math.round(eventData.beta)
+//
+//    // alpha is the compass direction the device is facing in degrees
+//    var dir = Math.round(eventData.alpha)
+//
+//    //--ORIENTATION HANDLER
+//    
+//    deviceOrientationHandler(tiltLR, tiltFB, dir)
+//    
+//  }, false);
+//} else {
+//  console.log("Orientation not supported");
+//}
+////---------------------------
+//    
+//
+//function deviceOrientationHandler(tiltLR, tiltFB, dir){
+//            document.getElementById("doDirection").innerHTML = dir
+//
+//            if(dir > 90 && dir < 180){
+//                CurrentTone.play()
+//                
+//            } else {
+//                CurrentTone.pause()
+//            }
+//    }
 
 //--USER INITITATION IS REQUIRED FOR AUDIO PLAY
     function ready() {

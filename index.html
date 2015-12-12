@@ -40,33 +40,40 @@
         <div>
           <form> 
             <div class="form-group">
-            <label for="control-colour">Screen Colour</label>
-            <select name="control-colour" id="control-colour" class="form-control">
-              <option value="#ff1a75">RED</option>
-              <option value="#99ccff">BLUE</option>
-              <option value="#ff33ff">PURPLE</option>
-            </select>
-          </div>
+                <label for="control-colour">Screen Colour</label>
+                <select name="control-colour" id="control-colour" class="form-control">
+                    <option value="#ff1a75">RED</option>
+                    <option value="#99ccff">BLUE</option>
+                    <option value="#ff33ff">PURPLE</option>
+                </select>
+            </div>
               
               
               
               
             <div class="form-group">
-            <label for="control-action">Speed Of Flash</label>
-            <select name="control-action" id="control-action" class="form-control">
-              <option value="10000">Slow</option>
-              <option value="5000">Medium</option>
-              <option value="1500">Fast</option>
-              <option value="compass">Compass</option>
-            </select>
-          </div>
+                <label for="control-action">Speed Of Flash</label>
+                <select name="control-action" id="control-action" class="form-control">
+                    <option value="10000">Slow</option>
+                    <option value="5000">Medium</option>
+                    <option value="1500">Fast</option>
+                </select>
+            </div>
+              
+            <div class="form-group">
+                <label for="control-compass">Speed Of Flash</label>
+                <select name="control-compass" id="control-compass" class="form-control">
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                </select>
+            </div>
               
               <button type="button" class="btn btn-default" onclick="publish()">submit</button>
         </form>
       </div>
             
             
-        
+         <button type="button" class="btn btn-default" onclick="ready()">I am ready</button>
 
     </body>
     
