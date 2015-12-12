@@ -35,21 +35,38 @@
                     </table>
             </div>
             
-            <button onclick="ready()"> Ready</button>
-    <div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-default" onclick="publishR()">RED</button>
-  <button type="button" class="btn btn-default" onclick="publishB()">BLUE</button>
-  <button type="button" class="btn btn-default" onclick="publishP()">PURPLE</button>
+
 </div>
+        <div>
+          <form> 
+            <div class="form-group">
+            <label for="control-colour">Screen Colour</label>
+            <select name="control-colour" id="control-colour" class="form-control">
+              <option value="#ff1a75">RED</option>
+              <option value="#99ccff">BLUE</option>
+              <option value="#ff33ff">PURPLE</option>
+            </select>
+          </div>
+              
+              
+              
+              
+            <div class="form-group">
+            <label for="control-action">Speed Of Flash</label>
+            <select name="control-action" id="control-action" class="form-control">
+              <option value="10000">Slow</option>
+              <option value="5000">Medium</option>
+              <option value="1500">Fast</option>
+              <option value="compass">Compass</option>
+            </select>
+          </div>
+              
+              <button type="button" class="btn btn-default" onclick="publish()">submit</button>
+        </form>
+      </div>
             
             
         
-<!--
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script src="http://cdn.pubnub.com/pubnub-3.7.18.min.js"></script>
-        <script src = "GordonM.js"></script>
--->
 
     </body>
     

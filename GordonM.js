@@ -9,8 +9,12 @@ var pubnub = PUBNUB({
 pubnub.subscribe({
     channel: 'GMflash',
     message: function(m){var colourRecieved = m.colour
-                        $('body').css({"background-color": colourRecieved})
-                        console.log(m.colour)},
+                        setInterval(function(){
+                            document.body.style.backgroundColor = document.body.style.backgroundColor == "black" ? colourRecieved: "black";}, m.flashRate);
+                    
+                        
+                                
+                        console.log(m.flashRate)},
     error: function (error) {
       // Handle error here
       console.log(JSON.stringify(error));
@@ -18,50 +22,30 @@ pubnub.subscribe({
  });
 
 //--send messages for different colors
-function publishR() {
+function publish() {
 pubnub.publish({
     channel: 'GMflash',        
     message: flashcontrol = {
-                colour: "#ff1a75",
+                colour: $("#control-colour").val(),
+                flashRate: $("#control-action").val()
                 }
     ,
     callback : function(m){console.log("publish " + flashcontrol.colour)}
 });
 }
 
-function publishB() {
-pubnub.publish({
-    channel: 'GMflash',        
-    message: flashcontrol = {
-                colour: "#99ccff",
-                }
-    ,
-    callback : function(m){console.log("publish " + flashcontrol.colour)}
-});
-}
-
-function publishP() {
-pubnub.publish({
-    channel: 'GMflash',        
-    message: flashcontrol = {
-                colour: "#ff33ff",
-                }
-    ,
-    callback : function(m){console.log("publish " + flashcontrol.colour)}
-});
-}
 
 //---Set up audio files
 var HighTone = document.createElement('audio')
-HighTone.src = 'sound/audiocheck.mp3'
+HighTone.src = 'sound/audiocheckM4.mp3'
 HighTone.preload = "none"
 
 var MidTone = document.createElement('audio')
-MidTone.src = 'sound/audiocheckM.mp3'
+MidTone.src = 'sound/MidTone.mp3'
 MidTone.preload = "none"
 
 var LowTone = document.createElement('audio')
-LowTone.src ='sound/audiocheckL.mp3'
+LowTone.src ='sound/LowTone.mp3'
 LowTone.preload = "none"
 
 
@@ -86,15 +70,15 @@ var CurrentTone;
 
 }
 
-
+//-------------------adpated code from http://www.html5rocks.com/en/tutorials/device/orientation/
 if (window.DeviceOrientationEvent) {
   
   // Listen for the deviceorientation event and handle the raw data
   window.addEventListener('deviceorientation', function(eventData) {
-    // gamma is the left-to-right tilt in degrees, where right is positive
+    // gamma is the left-to-right tilt in degrees
     var tiltLR = Math.round(eventData.gamma)
 
-    // beta is the front-to-back tilt in degrees, where front is positive
+    // beta is the front-to-back tilt in degrees
     var tiltFB = Math.round(eventData.beta)
 
     // alpha is the compass direction the device is facing in degrees
@@ -104,10 +88,12 @@ if (window.DeviceOrientationEvent) {
     deviceOrientationHandler(tiltLR, tiltFB, dir)
   }, false);
 } else {
-  document.getElementById("doDirection").innerHTML = "Not supported."
+  console.log("Orientation not supported");
 }
+//---------------------------
+    
 
-    function deviceOrientationHandler(tiltLR, tiltFB, dir){
+function deviceOrientationHandler(tiltLR, tiltFB, dir){
             document.getElementById("doDirection").innerHTML = dir
 
             if(dir > 90 && dir < 180){
