@@ -16,11 +16,11 @@
     </head>
     
     <body>
-        <div id="container" style="height:100%;width:100%; backgroundColor:'white'">
+        <div id="container" style="height:100%;width:100%; visibility: hidden">
         
            
             <div>
-                <h2>Device Orientation</h2>
+                
                     <table>
                         <tr>
         <!--this is here for debugging purpses only-->
@@ -36,7 +36,7 @@
             </div>
             
 
-</div>
+
         <div>
           <form> 
             <div class="form-group">
@@ -61,20 +61,35 @@
             </div>
               
             <div class="form-group">
-                <label for="control-compass">Speed Of Flash</label>
+                <label for="control-compass">Colour With Compass?</label>
                 <select name="control-compass" id="control-compass" class="form-control">
                     <option value="false">False</option>
                     <option value="true">True</option>
                 </select>
             </div>
-              
-              <button type="button" class="btn btn-default" onclick="publish()">submit</button>
+              <div class="form-group">
+              <button type="button" class="btn btn-primary" onclick="publish()">submit</button>
+              </div>
         </form>
       </div>
             
-            
-         <button type="button" class="btn btn-default" onclick="ready()">I am ready</button>
-
-    </body>
+</div>  
+     
+        <div class="form-group">        
+         <button id ="readybutton" type="button" class="btn btn-primary btn-lg btn-block" onclick="ready()">Press for audio preload</button>
+        </div>
+    <div id="passcode">
+       <div class="form-group">
+            <label for="pwd">Password For Control Board:</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" onclick="showControls()">Sign in</button>
+            </div>
+        </div>
+    </div>
+      
+</body>
     
 </html>

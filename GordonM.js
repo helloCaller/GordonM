@@ -1,37 +1,23 @@
 
-// Subscribing to pubNub in order to send messages.
+//--SUBSCRIBING TO PUBNUB
 var pubnub = PUBNUB({
     subscribe_key: 'sub-c-03f3177c-9c7e-11e5-b829-02ee2ddab7fe', // always required
     publish_key: 'pub-c-8c19144e-3d5a-4e5b-8442-f56d8721b99c'    // only required if publishing
 });
 
-//---receive messages
+//---RECIEVE THE OBJECT AND USE ITS VALUES
 pubnub.subscribe({
     channel: 'GMflash',
     message: function(m){var colourRecieved = m.colour
-                        //var bodyColour = document.body.style.backgroundColor
-                //---this flashes screen based on rate and colour received
-                        console.log(m.flashDirection);
-                      if(m.flashDirection == "false"){ 
-                        setInterval(function(){
-                        document.body.style.backgroundColor = document.body.style.backgroundColor == "black" ? colourRecieved: "black";}, m.flashRate);
-                     } else if(m.flashDirection == "true") {
-                          
-                          if (window.DeviceOrientationEvent) {
+            if (window.DeviceOrientationEvent) {
+//-------CODE ADAPTED FROM http://www.html5rocks.com/en/tutorials/device/orientation/  
   
-  // Listen for the deviceorientation event and handle the raw data
   window.addEventListener('deviceorientation', function(eventData) {
-    // gamma is the left-to-right tilt in degrees
     var tiltLR = Math.round(eventData.gamma)
-
-    // beta is the front-to-back tilt in degrees
-     var tiltFB = Math.round(eventData.beta)
-
-    // alpha is the compass direction the device is facing in degrees
+    var tiltFB = Math.round(eventData.beta)
     var dir = Math.round(eventData.alpha)
 
     //--ORIENTATION HANDLER
-    
     deviceOrientationHandler(tiltLR, tiltFB, dir)
     
   }, false);
@@ -39,34 +25,44 @@ pubnub.subscribe({
   console.log("Orientation not supported");
 }
 //---------------------------
+                      if(m.flashDirection == "false"){
+        //---IF FLASH BASED ON DIRECTION = FALSE, SCREEN FLASHES COLOUR AT A CONSTANT RATE (EITHER SLOW,MEDIUM, OR FAST DEPENDING ON THE CONTROL BOARD INPUT)
+                        setInterval(function(){
+                        document.body.style.backgroundColor = document.body.style.backgroundColor == "black" ? colourRecieved: "black";}, m.flashRate);
+
+//---OR IF FLASH BASED ON DIRECTION = TRUE, HAVE COLOUR RECIEVED FLASH WHEN PHONE IS AT A CERTAIN ANGLE
+                     } else if(m.flashDirection == "true") {
+                        
     
+            function deviceOrientationHandler(tiltLR, tiltFB, dir){
+                document.getElementById("doDirection").innerHTML = dir
 
-function deviceOrientationHandler(tiltLR, tiltFB, dir){
-            document.getElementById("doDirection").innerHTML = dir
-
-            if(dir > 90 && dir < 180){
-                CurrentTone.play()
-                document.body.style.backgroundColor = colourRecieved
+                if(dir > 90 && dir < 200){
+                    CurrentTone.play()
+                    document.body.style.backgroundColor = colourRecieved
                 
-            } else {
-                CurrentTone.pause()
-                document.body.style.backgroundColor = "black";
+                } else {
+                    CurrentTone.pause()
+                    document.body.style.backgroundColor = "black";
+                }
             }
-    }
                           
                       }
                         
                                 
                         console.log(m.flashRate)},
     error: function (error) {
-      // Handle error here
+      //--IN CASE OF ERROR
       console.log(JSON.stringify(error));
     }
  });
 
-console.log(pubnub.subscribe.message);
-//--send messages for different colors
+
+
+
+//--PUBLISH SENDS OUT AN OBJECT CALLED flashcontrol WITH VALUES PULLED FROM THE CONTROL BOARD
 function publish() {
+   
 pubnub.publish({
     channel: 'GMflash',        
     message: flashcontrol = {
@@ -78,9 +74,10 @@ pubnub.publish({
     callback : function(m){console.log("publish " + flashcontrol.colour)}
 });
 }
+    
 
 
-//---Set up audio files
+//---ESTABLISH AUDIO FILES AND THEIR SOURCES
 var HighTone = document.createElement('audio')
 HighTone.src = 'sound/audiocheckM4.mp3'
 HighTone.preload = "none"
@@ -94,12 +91,12 @@ LowTone.src ='sound/LowTone.mp3'
 LowTone.preload = "none"
 
 
-
-//this randomly assigns each device to a different group
+//--RANDOMLY ASSIGN EACH DEVICE TO A DIFFERENT GROUP SO THAT EACH GROUP GETS A DIFFERENT AUDIO TRACK
 var groupNumber = Math.round(Math.random() * (3 - 1) + 1);
 console.log(groupNumber);
 
-//---assigns a tone to each group and sets that to CurrentTone as to load, play and pause only that audio file
+
+//---ASSINGS A TONE TO EACH GROUP AND SETS THAT TO CurrentTone AS TO LOAD, PLAY, AND PAUSE ONLY THAT AUDIO FILE
 var CurrentTone;
     switch(groupNumber){
         case 1:CurrentTone = HighTone
@@ -115,43 +112,25 @@ var CurrentTone;
 
 }
 
-//-------------------adpated code from http://www.html5rocks.com/en/tutorials/device/orientation/
-//if (window.DeviceOrientationEvent) {
-//  
-//  // Listen for the deviceorientation event and handle the raw data
-//  window.addEventListener('deviceorientation', function(eventData) {
-//    // gamma is the left-to-right tilt in degrees
-//    var tiltLR = Math.round(eventData.gamma)
-//
-//    // beta is the front-to-back tilt in degrees
-//     var tiltFB = Math.round(eventData.beta)
-//
-//    // alpha is the compass direction the device is facing in degrees
-//    var dir = Math.round(eventData.alpha)
-//
-//    //--ORIENTATION HANDLER
-//    
-//    deviceOrientationHandler(tiltLR, tiltFB, dir)
-//    
-//  }, false);
-//} else {
-//  console.log("Orientation not supported");
-//}
-////---------------------------
-//    
-//
-//function deviceOrientationHandler(tiltLR, tiltFB, dir){
-//            document.getElementById("doDirection").innerHTML = dir
-//
-//            if(dir > 90 && dir < 180){
-//                CurrentTone.play()
-//                
-//            } else {
-//                CurrentTone.pause()
-//            }
-//    }
 
-//--USER INITITATION IS REQUIRED FOR AUDIO PLAY
+
+//--USER INITITATION IS REQUIRED FOR AUDIO TO PLAY
     function ready() {
         CurrentTone.load()
+        $("#readybutton").css("visibility", "hidden")
+        $("#passcode").css("visibility", "hidden")
+       document.body.style.backgroundColor = "black"
     }
+
+//--SHOW CONTROL BOARD AFTER A PASSWORD IS PUT IN
+ function showControls(){
+     console.log($("#pwd").val())
+    var pass = $("#pwd").val()
+    if(pass === "Ocad2015"){
+        $("#container").css("visibility", "visible")
+        $("#passcode").css("visibility", "hidden")
+    }else {
+        $("#pwd").val("")
+        $("#pwd").attr('placeholder', 'Incorrect passcode');
+    }
+ }
