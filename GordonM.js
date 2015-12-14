@@ -25,6 +25,8 @@ pubnub.subscribe({
         var colourRecieved = m.colour
         var flashRate = m.flashRate
         var flashBasedOnDirection = m.flashDirection
+        
+        if(!m.callreload == true){
         //-------THIS CODE ADAPTED FROM http://www.html5rocks.com/en/tutorials/device/orientation/  
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', function (eventData) {
@@ -75,7 +77,9 @@ pubnub.subscribe({
                 document.body.style.backgroundColor = "black";
             }
         }
-
+    } else {
+        location.reload()
+    }
        
     },
     error: function (error) {
@@ -89,6 +93,8 @@ pubnub.subscribe({
 
 //--PUBLISH SENDS OUT AN OBJECT CALLED flashcontrol WITH VALUES PULLED FROM THE CONTROL BOARD
 function publish() {
+    $("#submitbutton").css("visibility","hidden");
+    $("#refreshbutton").css("visibility","visible");
     pubnub.publish({
         channel: 'GMflash',
         message: flashcontrol = {
@@ -101,6 +107,19 @@ function publish() {
         }
     });
 }
+
+function reload(){
+    pubnub.publish({
+        channel:'GMflash',
+        message: flashcontrol = {
+            callreload: true
+        },
+        callback: function (n) {
+            console.log("publish " + reload.callreload)
+        }
+    });
+}
+
 
 
 
